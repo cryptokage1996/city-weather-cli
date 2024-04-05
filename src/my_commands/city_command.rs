@@ -26,9 +26,9 @@ fn processor(obj: String) -> Result<(), Error> {
 
 pub fn build_command() -> Command {
     Command::new("city").about("Enter a City Name").arg(
-        Arg::new("city")
-            .short('c')
-            .long("city")
+        Arg::new("name")
+            .short('n')
+            .long("name")
             .required(true)
             .help("City Name"),
     )
@@ -54,7 +54,7 @@ impl WeatherData {
 
 pub async fn process_command(match_result: &ArgMatches) -> Result<(), Error> {
     if let Some(city_matches) = match_result.subcommand_matches("city") {
-        let city = city_matches.get_one::<String>("city").unwrap();
+        let city = city_matches.get_one::<String>("name").unwrap();
         let res = WeatherData::get(city)
             .await
             .map_err(|_err| Error::new(clap::error::ErrorKind::InvalidValue))?;
